@@ -1,67 +1,73 @@
 package TDA;
 
-public class Cola {
-    private int [] datos;
-    private int front; // posicion del inicio
-    private int back;  // posicion del final
-    int MAX_SIZE = 5;
-    
+public class Cola<T> {
+
+    // Atributos
+
+    private Nodo<T> frente;
+    private Nodo<T> ultimo;
+
+    // Constructores
+
     public Cola() {
-        datos = new int[MAX_SIZE];
-        front = -1;
-        back = -1;
+        frente = null;
+        ultimo = null;
     }
-    
-    public boolean estaVacia() {
-        if (front == -1 && back == -1)
+
+    // Si la cola esta vacia
+
+    public boolean esVacia() {
+        if (frente == null) {
             return true;
-        return false;
-    }
-    
-    public boolean estaLlena() {
-        if ((back + 1) == front || ((front == 0) && (back == MAX_SIZE - 1)) )
-            return true;
-        return false;
-    }
-    
-    public void encolar(int item) {
-        if(!estaLlena()) {
-            if (estaVacia()) {
-                front = 0;
-                back = 0;
-            }
-            else if (back != MAX_SIZE - 1)
-                back++;
-            else
-                back = 0;
-            datos[back] = item;
+        } else {
+            return false;
         }
     }
-    
-    public int desencolar() {
-        if(!estaVacia()) {
-            int item = datos[front];
-            datos[front] = -999;
-            if (front == back) {
-                front = -1;
-                back = -1;
-            }
-            else if (front != MAX_SIZE - 1)
-                front++;
-            else {
-                front = 0;
-            }
-            return item;
-        }
-        else {
-            System.out.println("La cola esta vacia");
-            return -1;
+
+    // encolar: agregar un nuevo elemento a al final de la cola
+
+    public void encolar(T pElemento) {
+        if (esVacia() == true) {
+            Nodo<T> nuevoNodo = new Nodo(pElemento, null);
+            frente = nuevoNodo;
+            ultimo = nuevoNodo;
+        } else { // la cola no esta vacia
+            Nodo<T> nuevoNodo = new Nodo(pElemento, null);
+            ultimo.setSgteNodo(nuevoNodo);
+            ultimo = nuevoNodo;
+
         }
     }
-    
-    public void mostrarCola() {
-        for (int i=0; i < MAX_SIZE; i++)
-            System.out.print(datos[i] + " | ");
-        System.out.println("");
+
+    // desencolar: eliminar el elemento que esta al frente de la cola
+    // nos devuelve el elemento eliminado
+
+    public T desencolar() {
+        if (esVacia() == false) {
+            T x = frente.getElemento();
+            Nodo<T> aux = frente;
+            frente = aux.getSgteNodo();
+            return x;
+        } else {
+            throw new RuntimeException("ERROR: no es posible desencolar");
+        }
+    }
+
+    public T frente() {
+        if (!esVacia()) {
+            return frente.getElemento();
+        } else {
+            throw new RuntimeException("ERROR: no es posible devolver frente");
+        }
+    }
+
+    public int longitud() {
+        int i = 0;
+        Nodo<T> aux = frente;
+        while (aux != null) {
+            aux = aux.getSgteNodo();
+            i++;
+        }
+        return i;
     }
 }
