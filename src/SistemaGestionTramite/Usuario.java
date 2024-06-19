@@ -33,6 +33,9 @@ public class Usuario {
     public void setDNI(int DNI) {
         this.DNI = DNI;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "\nnombre: " + nombre + "\nDNI: " + DNI;
+    }
 }

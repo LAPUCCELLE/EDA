@@ -50,7 +50,7 @@ public class Lista<T> {
     public void mostrar() {
         Nodo<T> aux = cabeza;
         while (aux != null) {
-            System.out.print(aux.getElemento() + "\t");
+            System.out.print(aux.getElemento().toString() + "\t");
             // avanzo al siguiente
             aux = aux.getSgteNodo();
         }
